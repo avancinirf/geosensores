@@ -1,0 +1,58 @@
+/* MENU */
+.navbar-default {
+  background-color: #008080;
+  border: 0px;
+  border-radius: 0px;
+}
+
+.navbar-default .navbar-brand {
+  padding-left: 23px;
+  padding-right: 25px;
+  color: #FFF;
+  font-size: 20px;
+}
+
+.navbar-default .navbar-brand:hover {
+  color: #008080;
+  background-color: #FFF;
+}
+
+.navbar-default .navbar-nav>li>a {
+  padding-left: 15px;
+  padding-right: 15px;
+  color: #FFF;
+  font-size: 14px;
+}
+
+.dropdown-menu>li>a {
+  color: #FFF;
+  font-size: 12px;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+  color: #008080;
+  background-color: #FFF;
+}
+
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.open>a:focus,
+.navbar-default .navbar-nav>.open>a:hover {
+  color: #008080;
+  background-color: #FFF;
+}
+
+.dropdown-menu>li>a {
+  color: #008080;
+}
+
+/* CONTEÚDO */
+.conteudo {
+  min-height: 100vh;
+}
+
+
+/* RODAPÉ */
+.rodape {
+  height: 100px;
+  background-color: #008080;
+}
