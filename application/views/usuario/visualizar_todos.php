@@ -9,12 +9,10 @@
                     <th>ID</th>
                     <th>NOME</th>
                     <th>E-MAIL</th>
+                    <th>PERFIL</th>
                     <th>DATA CRIAÇÃO</th>
-                    <?php if ($this->session->userdata('perfil') === "admin") {
-                    ?>
-                    <th>AÇÕES</th>
-                    <?php
-                    } ?>
+                    <th>DATA ÚLTIMA ATUALIZAÇÃO</th>
+                    <th>OPÇÕES</th>
                   </tr>
                 <tbody>
                   <?php
@@ -24,15 +22,13 @@
                       <td><?php echo $usuario["id"]; ?></td>
                       <td><?php echo $usuario["nome"]; ?></td>
                       <td><?php echo $usuario["email"]; ?></td>
-                      <td><?php echo $usuario["created"]; ?></td>
-                      <?php if ($this->session->userdata('perfil') === "admin") {
-                      ?>
+                      <td><?php echo $usuario["perfil"]; ?></td>
+                      <td><?php echo $usuario["created_at"]; ?></td>
+                      <td><?php echo $usuario["updated_at"]; ?></td>
                       <td>
-                        <a class="btn btn-default btn-sm" href="<?php echo base_url('usuario/editar/'.$usuario["id"]); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a class="btn btn-default btn-sm" href="<?php echo base_url('usuario/editar/'.$usuario["id"]); ?>" ><i class="glyphicon glyphicon-pencil"></i></a>
                         <a class="btn btn-danger btn-sm" href="<?php echo base_url('usuario/deletar/'.$usuario["id"]); ?>" onclick="return confirm('Deseja realmente remover este usuário?');"><i class="glyphicon glyphicon-trash"></i></a>
                       </td>
-                      <?php
-                      } ?>
                     </tr>
                   <?php
                       }

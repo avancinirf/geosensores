@@ -27,13 +27,13 @@
                 <div class="form-group form-group-sm">
                   <label class="col-sm-2 control-label" for="senha">Senha</label>
                   <div class="col-sm-10">
-                    <input class="form-control" type="password" id="senha" name="senha" value="" required>
+                    <input class="form-control" type="password" id="senha" name="senha" value="">
                   </div>
                 </div>
                 <div class="form-group form-group-sm">
                   <label class="col-sm-2 control-label" for="confirmar_senha">Confirmar senha</label>
                   <div class="col-sm-10">
-                    <input class="form-control" type="password" id="confirmar_senha" name="confirmar_senha" value="" required>
+                    <input class="form-control" type="password" id="confirmar_senha" name="confirmar_senha" value="">
                   </div>
                 </div>
                 <div class="form-group form-group-sm">

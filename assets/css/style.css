@@ -56,3 +56,18 @@
   height: 100px;
   background-color: #008080;
 }
+
+
+/* LOGIN */
+.bloco-login {
+  margin-top: 10vh;
+  border: 2px solid rgba(0, 128, 128, 0.6);
+  border-radius: 3px;
+  background-color: rgba(0, 128, 128, 0.2);
+  padding: 10px;
+}
+
+.btn-login, .btn-login-visitante {
+  min-width: 200px;
+  margin-bottom: 10px;
+}

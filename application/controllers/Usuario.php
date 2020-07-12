@@ -7,13 +7,15 @@ class Usuario extends CI_Controller {
 			parent::__construct();
 			// Verifica se o usuário está logado
 			if (!$this->session->userdata('logado')) {
-						redirect('conta/entrar');
+				redirect('conta/entrar');
 			}
 	}
 
 
 	// Visualizar todos os usuários do sistema
 	public function visualizar_todos() {
+		if ($this->session->userdata('perfil') !== "admin") redirect('home');
+
 		$alerta = null;
 		$this->load->model('usuario_model');
 		$usuarios = $this->usuario_model->get_usuarios();
@@ -29,9 +31,8 @@ class Usuario extends CI_Controller {
 
 	// Cadastrar um novo usuário
 	public function cadastrar() {
+		if ($this->session->userdata('perfil') !== "admin") redirect('home');
 		$alerta = null;
-		// Verifica se o usuário tem perfil de edição
-		if ($this->session->userdata('perfil') !== "admin") redirect('conta/entrar');
 		if ($this->input->post('cadastrar') && $this->input->post('cadastrar') === "cadastrar") {
 			if ($this->input->post('captcha')) redirect('conta/entrar');
 			// Regras de validação
@@ -64,7 +65,7 @@ class Usuario extends CI_Controller {
 			} else {
 				$alerta = array(
 					"class" => "danger",
-					"mensagem" => "Atenção! O formulário não foi validado.</br>".validation_errors()
+					"mensagem" => "Atenção! Erro ao preencher o formulário.</br>".validation_errors()
 				);
 			}
 		}
@@ -84,14 +85,12 @@ class Usuario extends CI_Controller {
 		$id_usuario = (int) $id_usuario;
 
 		// Verifica se o usuário tem perfil de edição
-		if ($this->session->userdata('perfil') !== "admin") redirect('conta/entrar');
+		//if ($this->session->userdata('perfil') !== "admin") redirect('conta/entrar');
 		if ($id_usuario) {
 			$this->load->model('usuario_model');
-			$existe = $this->usuario_model->get_usuario($id_usuario);
+			$usuario = $this->usuario_model->get_usuario($id_usuario);
 			// Verifica se usuário existe no banco de dados
-			if ($existe) {
-				$usuario = $existe;
-
+			if ($usuario) {
 				if ($this->input->post('editar') === "editar") {
 					if ($this->input->post('captcha')) redirect('conta/entrar');
 					$id_usuario_form = (int) $this->input->post('id_usuario');
@@ -100,18 +99,19 @@ class Usuario extends CI_Controller {
 					// Regras de validação
 					$this->form_validation->set_rules('email', 'e-mail', 'required|valid_email');
 					$this->form_validation->set_rules('nome', 'nome', 'required|min_length[3]|max_length[100]');
-					$this->form_validation->set_rules('senha', 'senha', 'required|min_length[3]|max_length[20]');
-					$this->form_validation->set_rules('confirmar_senha', 'confirmar senha', 'required|min_length[3]|max_length[20]|matches[senha]');
+					$this->form_validation->set_rules('senha', 'senha', 'min_length[3]|max_length[20]');
+					$this->form_validation->set_rules('confirmar_senha', 'confirmar senha', 'matches[senha]|min_length[3]|max_length[20]|matches[senha]');
 
 					// Verifica se as regras são atendidas
 					if ($this->form_validation->run() === TRUE) {
 						$usuario_atualizado = array(
 							"nome" 		=> $this->input->post('nome'),
-							"email" 	=> $this->input->post('email'),
-							"senha" 	=> $this->input->post('senha')
+							"email" 	=> $this->input->post('email')
 						);
-						$atualizou = $this->usuario_model->update_usuario($id_usuario, $usuario_atualizado);
-						if ($atualizou) {
+						if ($this->input->post('senha')) {
+							$usuario_atualizado["senha"] = $this->input->post('senha');
+						}
+						if ($this->usuario_model->update_usuario($id_usuario, $usuario_atualizado)) {
 							$alerta = array(
 								"class" => "success",
 								"mensagem" => "Usuário atualizado com sucesso."
@@ -125,7 +125,7 @@ class Usuario extends CI_Controller {
 					} else {
 						$alerta = array(
 							"class" => "danger",
-							"mensagem" => "Atenção! O formulário não foi validado.</br>".validation_errors()
+							"mensagem" => "Atenção! Erro ao preencher formulário.</br>".validation_errors()
 						);
 					}
 				}
@@ -133,7 +133,7 @@ class Usuario extends CI_Controller {
 				$usuario = FALSE;
 				$alerta = array(
 					"class" => "danger",
-					"mensagem" => "Atenção! O usuário não foi encontrado.</br>"
+					"mensagem" => "Atenção! O usuário não encontrado.</br>"
 				);
 			}
 		} else {
@@ -176,7 +176,7 @@ class Usuario extends CI_Controller {
 			} else {
 				$alerta = array(
 					"class" => "danger",
-					"mensagem" => "Atenção! O usuário não foi encontrado."
+					"mensagem" => "Atenção! O usuário não encontrado."
 				);
 			}
 		} else {
